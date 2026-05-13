@@ -11,7 +11,7 @@
   - React Hook Form
   - Zod
   - TanStack Query
-  - Tailwind CSS
+  - Tailwind CSS v4
   - shadcn/ui
 
 ---
@@ -51,8 +51,15 @@
 ```txt
 src/
   app/
+    (auth)/
+    (admin)/
+    (public)/
   modules/
   components/
+    ui/
+    common/
+    table/
+  i18n/
   lib/
   hooks/
   stores/
@@ -61,6 +68,24 @@ src/
   types/
   styles/
 ```
+
+---
+
+# ROUTE GROUP RULES
+
+- App routes must be grouped clearly:
+
+```txt
+app/
+  (auth)/
+  (admin)/
+  (public)/
+```
+
+- `(public)` contains customer-facing public/client pages.
+- `(auth)` contains login/register/admin login routes.
+- `(admin)` contains staff/admin pages.
+- Admin pages do not need public i18n.
 
 ---
 
@@ -113,12 +138,13 @@ modules/
 ```
 
 - Every feature must own:
-  - api
+  - services
   - hooks
   - components
   - schemas
   - types
   - constants
+  - configs
   - pages
   - utils
 
@@ -128,8 +154,8 @@ modules/
 
 ```txt
 modules/users/
-  api/
-    user.api.ts
+  services/
+    user.service.ts
 
   components/
     UserTable.tsx
@@ -156,7 +182,10 @@ modules/users/
 
   constants/
     user-query-key.constant.ts
-    user-status.constant.ts
+
+  configs/
+    user-status.config.ts
+    user-table-columns.config.tsx
 
   utils/
     user.mapper.ts
@@ -169,12 +198,13 @@ modules/users/
 # WHEN CREATING A NEW FEATURE
 
 - Always create:
-  - api folder
+  - services folder
   - hooks folder
   - components folder
   - schemas folder
   - types folder
   - constants folder
+  - configs folder
   - pages folder
   - utils folder
 
@@ -190,14 +220,15 @@ modules/users/
 
 ---
 
-# API RULES
+# SERVICE/API CALL RULES
 
-- API files only contain request functions.
+- Backend API call functions for each feature must live in `services/`, not `api/`.
+- Service files only contain request functions.
 
 - Example:
 
 ```ts
-export const userApi = {
+export const userService = {
   getUsers: async () => {},
   getUserDetail: async () => {},
   createUser: async () => {},
@@ -207,15 +238,15 @@ export const userApi = {
 ```
 
 - Never:
-  - put React hooks in api
-  - put UI logic in api
-  - put toast logic in api
-  - mutate UI state in api
+  - put React hooks in services
+  - put UI logic in services
+  - put toast logic in services
+  - mutate UI state in services
 
 - Always:
-  - centralize API requests
-  - reuse API functions
-  - keep API layer pure
+  - centralize API requests in services
+  - reuse service functions
+  - keep service layer pure
 
 ---
 
@@ -347,10 +378,11 @@ export const createUserSchema = z.object({
 components/
   ui/
   common/
+  table/
 ```
 
 - `ui/`
-  - shadcn components
+  - shadcn/ui components only
 
 - `common/`
   - business reusable components
@@ -369,6 +401,11 @@ components/common/
 ---
 
 # TABLE RULES
+
+- Table implementation must follow `docs/table-architecture-implementation-guide.md`.
+- Table UI is custom and shared under `components/table/`.
+- Table data fetching uses TanStack Query from module hooks.
+- Feature table config belongs in `modules/<feature>/configs/`.
 
 - Tables must:
   - support loading state
@@ -514,7 +551,21 @@ export default function UserTable() {}
 
 ---
 
+# I18N RULES
+
+- Customer/public pages must support Vietnamese and English.
+- Use `LanguageSwitcher` for client-facing language switching.
+- Public/client visible titles and labels must use i18n keys, not hardcoded text.
+- Dictionaries live in `src/i18n/dictionaries/vi.ts` and `src/i18n/dictionaries/en.ts`.
+- Admin pages do not require i18n unless explicitly requested.
+
+---
+
 # ERROR HANDLING RULES
+
+- Use shared `ApiErrorState` or feature-specific error components to display backend API errors.
+- Parse backend errors through `getApiErrorMessage` / `getApiErrorCode` from `lib/api/http-client`.
+- Never swallow backend errors silently.
 
 - Handle:
   - loading
@@ -551,7 +602,7 @@ export default function UserTable() {}
 
 # FOLDER RESPONSIBILITY RULES
 
-- `api/`
+- `services/`
   - API requests only
 
 - `hooks/`
@@ -566,8 +617,11 @@ export default function UserTable() {}
 
 - `constants/`
   - query keys
-  - status map
-  - config constants
+  - static constants
+
+- `configs/`
+  - table columns/filters/actions/status config
+  - status label/color maps
 
 - `utils/`
   - pure helper functions

@@ -1,6 +1,5 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { env } from '@/lib/env';
-import type { ApiFailure } from '@/contracts/api';
 
 export const httpClient = axios.create({
   baseURL: env.apiBaseUrl,
@@ -10,15 +9,4 @@ export const httpClient = axios.create({
   }
 });
 
-export function getApiErrorMessage(error: unknown): string {
-  if (error instanceof AxiosError) {
-    const data = error.response?.data as ApiFailure | undefined;
-    return data?.error?.message ?? error.message;
-  }
-
-  if (error instanceof Error) {
-    return error.message;
-  }
-
-  return 'Da co loi xay ra';
-}
+export { getApiErrorCode, getApiErrorMessage, showApiErrorToast } from './api-error';

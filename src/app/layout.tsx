@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import { QueryProvider } from '@/providers/query-provider';
-import './globals.css';
+import { QueryProvider } from '@/config/query-provider';
+import { I18nProvider } from '@/i18n';
+import '@/styles/globals.css';
 
 export const metadata: Metadata = {
   title: 'Toyshop',
@@ -11,7 +12,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="vi">
       <body>
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <I18nProvider>{children}</I18nProvider>
+        </QueryProvider>
       </body>
     </html>
   );
