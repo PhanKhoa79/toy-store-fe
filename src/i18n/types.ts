@@ -30,11 +30,23 @@ export type Dictionary = {
   };
   auth: {
     loginTitle: string;
+    registerTitle: string;
+    fullName: string;
     email: string;
+    phone: string;
     password: string;
+    confirmPassword: string;
     submitLogin: string;
+    submitRegister: string;
+    logout: string;
+    loginFailed: string;
+    registerFailed: string;
+    noAccount: string;
+    hasAccount: string;
     invalidEmail: string;
     passwordMin: string;
+    fullNameRequired: string;
+    passwordMismatch: string;
   };
   cart: {
     title: string;

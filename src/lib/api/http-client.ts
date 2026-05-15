@@ -10,3 +10,4 @@ export const httpClient = axios.create({
 });
 
 export { getApiErrorCode, getApiErrorMessage, showApiErrorToast } from './api-error';
+export { unwrapApiData, unwrapPaginatedResponse } from './response-normalizer';

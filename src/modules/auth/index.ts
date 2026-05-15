@@ -1,3 +1,11 @@
+export { AdminGuard } from './components/AdminGuard';
+export { AuthGuard } from './components/AuthGuard';
+export { CanAccess } from './components/CanAccess';
+export { CustomerGuard } from './components/CustomerGuard';
 export { LoginForm } from './components/LoginForm';
+export { LogoutButton } from './components/LogoutButton';
+export { RegisterForm } from './components/RegisterForm';
 export { LoginPage } from './pages/LoginPage';
+export { RegisterPage } from './pages/RegisterPage';
 export { createLoginSchema, type LoginFormValues } from './schemas/login.schema';
+export { createRegisterSchema, type RegisterFormValues } from './schemas/register.schema';

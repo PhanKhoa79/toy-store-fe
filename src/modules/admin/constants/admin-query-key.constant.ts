@@ -1,0 +1,23 @@
+export const adminQueryKeys = {
+  all: ['admin'] as const,
+  products: () => [...adminQueryKeys.all, 'products'] as const,
+  product: (id: string) => [...adminQueryKeys.products(), id] as const,
+  categories: () => [...adminQueryKeys.all, 'categories'] as const,
+  category: (id: string) => [...adminQueryKeys.categories(), id] as const,
+  brands: () => [...adminQueryKeys.all, 'brands'] as const,
+  brand: (id: string) => [...adminQueryKeys.brands(), id] as const,
+  orders: () => [...adminQueryKeys.all, 'orders'] as const,
+  order: (id: string) => [...adminQueryKeys.orders(), id] as const,
+  customers: () => [...adminQueryKeys.all, 'customers'] as const,
+  customer: (id: string) => [...adminQueryKeys.customers(), id] as const,
+  reviews: () => [...adminQueryKeys.all, 'reviews'] as const,
+  review: (id: string) => [...adminQueryKeys.reviews(), id] as const,
+  blogs: () => [...adminQueryKeys.all, 'blogs'] as const,
+  blog: (id: string) => [...adminQueryKeys.blogs(), id] as const,
+  slides: () => [...adminQueryKeys.all, 'slides'] as const,
+  slide: (id: string) => [...adminQueryKeys.slides(), id] as const,
+  users: () => [...adminQueryKeys.all, 'users'] as const,
+  user: (id: string) => [...adminQueryKeys.users(), id] as const,
+  permissions: () => [...adminQueryKeys.all, 'permissions'] as const,
+  reports: () => [...adminQueryKeys.all, 'reports'] as const
+};
